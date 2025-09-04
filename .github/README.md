@@ -1,6 +1,6 @@
 # Pokémon Fire Red and Leaf Green
 
-![BUILD](https://github.com/github/docs/actions/workflows/build.yml/badge.svg?event=push)
+![BUILD](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/build.yml/badge.svg?event=push)
 
 ---
 This is a decompilation of English Pokémon FireRed and LeafGreen.
