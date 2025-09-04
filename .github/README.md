@@ -18,7 +18,6 @@ For contacts and other pret projects, see [pret.github.io](https://pret.github.i
 
 ---
 
----
 # Quality of Life Features
-- Trade Evolutions now tied with Leveling as long as correct items are hold by the Pokemon.
+- Trade Evolutions now tied with Leveling as long as correct items are held by the Pokemon.
 - TMs are unlimited to use like HMs.

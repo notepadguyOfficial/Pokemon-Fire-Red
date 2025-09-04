@@ -202,7 +202,7 @@ compare: all
 # Other rules
 rom: $(ROM)
 ifeq ($(COMPARE),1)
-  @$(SHA1) $(BUILD_NAME).sha1
+	@$(SHA1) $(BUILD_NAME).sha1
 endif
 
 syms: $(SYM)
@@ -210,16 +210,16 @@ syms: $(SYM)
 clean: tidy clean-tools clean-generated clean-assets
 
 clean-assets:
-  rm -f $(MID_SUBDIR)/*.s
-  rm -f $(DATA_ASM_SUBDIR)/layouts/layouts.inc $(DATA_ASM_SUBDIR)/layouts/layouts_table.inc
-  rm -f $(DATA_ASM_SUBDIR)/maps/connections.inc $(DATA_ASM_SUBDIR)/maps/events.inc $(DATA_ASM_SUBDIR)/maps/groups.inc $(DATA_ASM_SUBDIR)/maps/headers.inc
-  find sound -iname '*.bin' -exec rm {} +
-  find . \( -iname '*.1bpp' -o -iname '*.4bpp' -o -iname '*.8bpp' -o -iname '*.gbapal' -o -iname '*.lz' -o -iname '*.rl' -o -iname '*.latfont' -o -iname '*.hwjpnfont' -o -iname '*.fwjpnfont' \) -exec rm {} +
-  find $(DATA_ASM_SUBDIR)/maps \( -iname 'connections.inc' -o -iname 'events.inc' -o -iname 'header.inc' \) -exec rm {} +
+	rm -f $(MID_SUBDIR)/*.s
+	rm -f $(DATA_ASM_SUBDIR)/layouts/layouts.inc $(DATA_ASM_SUBDIR)/layouts/layouts_table.inc
+	rm -f $(DATA_ASM_SUBDIR)/maps/connections.inc $(DATA_ASM_SUBDIR)/maps/events.inc $(DATA_ASM_SUBDIR)/maps/groups.inc $(DATA_ASM_SUBDIR)/maps/headers.inc
+	find sound -iname '*.bin' -exec rm {} +
+	find . \( -iname '*.1bpp' -o -iname '*.4bpp' -o -iname '*.8bpp' -o -iname '*.gbapal' -o -iname '*.lz' -o -iname '*.rl' -o -iname '*.latfont' -o -iname '*.hwjpnfont' -o -iname '*.fwjpnfont' \) -exec rm {} +
+	find $(DATA_ASM_SUBDIR)/maps \( -iname 'connections.inc' -o -iname 'events.inc' -o -iname 'header.inc' \) -exec rm {} +
 
 tidy:
-  $(RM) $(ALL_BUILDS:%=poke%{.gba,.elf,.map})
-  $(RM) -r $(BUILD_DIR)
+	$(RM) $(ALL_BUILDS:%=poke%{.gba,.elf,.map})
+	$(RM) -r $(BUILD_DIR)
 
 # "friendly" target names for convenience sake
 firered:                ; @$(MAKE) GAME_VERSION=FIRERED
@@ -248,7 +248,7 @@ include audio_rules.mk
 # NOTE: Tools must have been built prior (FIXME)
 # so you can't really call this rule directly
 generated: $(AUTO_GEN_TARGETS)
-  @: # Silence the "Nothing to be done for `generated'" message, which some people were confusing for an error.
+	@: # Silence the "Nothing to be done for `generated'" message, which some people were confusing for an error.
 
 %.s:   ;
 %.png: ;
@@ -264,8 +264,8 @@ generated: $(AUTO_GEN_TARGETS)
 %.rl:     %      ; $(GFX) $< $@
 
 clean-generated:
-  @rm -f $(AUTO_GEN_TARGETS)
-  @echo "rm -f <AUTO_GEN_TARGETS>"
+	@rm -f $(AUTO_GEN_TARGETS)
+	@echo "rm -f <AUTO_GEN_TARGETS>"
 
 ifeq ($(MODERN),0)
 $(C_BUILDDIR)/agb_flash.o: CFLAGS := -O -mthumb-interwork
@@ -299,60 +299,60 @@ endif
 
 $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c
 ifneq ($(KEEP_TEMPS),1)
-  @echo "$(CC1) <flags> -o $@ $<"
-  @$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
+	@echo "$(CC1) <flags> -o $@ $<"
+	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
 else
-  @$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
-  @$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s
-  @echo -e ".text\n\t.align\t2, 0\n" >> $(C_BUILDDIR)/$*.s
-  $(AS) $(ASFLAGS) -o $@ $(C_BUILDDIR)/$*.s
+	@$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
+	@$(PREPROC) $(C_BUILDDIR)/$*.i charmap.txt | $(CC1) $(CFLAGS) -o $(C_BUILDDIR)/$*.s
+	@echo -e ".text\n\t.align\t2, 0\n" >> $(C_BUILDDIR)/$*.s
+	$(AS) $(ASFLAGS) -o $@ $(C_BUILDDIR)/$*.s
 endif
 
 $(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.c
-  $(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I tools/agbcc/include $<
+	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I tools/agbcc/include $<
 
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(C_SRCS:.c=.d))
 endif
 
 $(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s
-  $(AS) $(ASFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) -o $@ $<
 
 $(ASM_BUILDDIR)/%.d: $(ASM_SUBDIR)/%.s
-  $(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
+	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(ASM_SRCS:.s=.d))
 endif
 
 $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.s
-  $(PREPROC) $< charmap.txt | $(CPP) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
+	$(PREPROC) $< charmap.txt | $(CPP) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
 
 $(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.s
-  $(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
+	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(C_ASM_SRCS:.s=.d))
 endif
 
 $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s
-  $(PREPROC) $< charmap.txt | $(CPP) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
+	$(PREPROC) $< charmap.txt | $(CPP) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
 
 $(DATA_ASM_BUILDDIR)/%.d: $(DATA_ASM_SUBDIR)/%.s
-  $(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
+	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)
 -include $(addprefix $(OBJ_DIR)/,$(REGULAR_DATA_ASM_SRCS:.s=.d))
 endif
 
 $(OBJ_DIR)/sym_bss.ld: sym_bss.txt
-  $(RAMSCRGEN) .bss $< ENGLISH > $@
+	$(RAMSCRGEN) .bss $< ENGLISH > $@
 
 $(OBJ_DIR)/sym_common.ld: sym_common.txt $(C_OBJS) $(wildcard common_syms/*.txt)
-  $(RAMSCRGEN) COMMON $< ENGLISH -c $(C_BUILDDIR),common_syms > $@
+	$(RAMSCRGEN) COMMON $< ENGLISH -c $(C_BUILDDIR),common_syms > $@
 
 $(OBJ_DIR)/sym_ewram.ld: sym_ewram.txt
-  $(RAMSCRGEN) ewram_data $< ENGLISH > $@
+	$(RAMSCRGEN) ewram_data $< ENGLISH > $@
 
 # Linker script
 ifeq ($(MODERN),0)
@@ -368,14 +368,14 @@ endif
 # Elf from object files
 LDFLAGS = -Map ../../$(MAP)
 $(ELF): $(LD_SCRIPT) $(LD_SCRIPT_DEPS) $(OBJS)
-  @cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ../../$< --print-memory-usage -o ../../$@ $(OBJS_REL) $(LIB) | cat
-  @echo "cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ../../$< --print-memory-usage -o ../../$@ <objs> <libs> | cat"
-  $(FIX) $@ -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(GAME_REVISION) --silent
+	@cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ../../$< --print-memory-usage -o ../../$@ $(OBJS_REL) $(LIB) | cat
+	@echo "cd $(OBJ_DIR) && $(LD) $(LDFLAGS) -T ../../$< --print-memory-usage -o ../../$@ <objs> <libs> | cat"
+	$(FIX) $@ -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(GAME_REVISION) --silent
 
 # Builds the rom from the elf file
 $(ROM): $(ELF)
-  $(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
+	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
 
 # Symbol file (`make syms`)
 $(SYM): $(ELF)
-  $(OBJDUMP) -t $< | sort -u | grep -E "^0[2389]" | $(PERL) -p -e 's/^(\w{8}) (\w).{6} \S+\t(\w{8}) (\S+)$$/\1 \2 \3 \4/g' > $@
+	$(OBJDUMP) -t $< | sort -u | grep -E "^0[2389]" | $(PERL) -p -e 's/^(\w{8}) (\w).{6} \S+\t(\w{8}) (\S+)$$/\1 \2 \3 \4/g' > $@
