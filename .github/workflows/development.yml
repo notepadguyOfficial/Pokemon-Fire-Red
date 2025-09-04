@@ -17,17 +17,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
 
       - name: Checkout agbcc
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
         with:
           repository: pret/agbcc
           path: agbcc
 
       - name: Checkout pret/pokefirered symbols
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
         with:
           repository: pret/pokefirered
           ref: symbols

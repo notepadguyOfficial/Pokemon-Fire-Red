@@ -18,17 +18,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
 
       - name: Checkout agbcc
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
         with:
           repository: pret/agbcc
           path: agbcc
 
       - name: Checkout pret/pokefirered symbols
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
         with:
           repository: pret/pokefirered
           ref: symbols
@@ -53,7 +53,7 @@ jobs:
         run: zip -r gba_files.zip *.gba
 
       - name: Upload .gba artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: gba-files
           path: gba_files.zip
