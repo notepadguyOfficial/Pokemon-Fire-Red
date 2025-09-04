@@ -96,3 +96,5 @@ jobs:
           cwd: "./symbols"
           add: "*.sym"
           message: ${{ env.SYMBOLS_COMMIT_MSG }}
+          push: true
+          github_token: ${{ secrets.PAT_PUSH }}

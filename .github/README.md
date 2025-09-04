@@ -1,9 +1,13 @@
 # Pokémon Fire Red and Leaf Green
 
 ![Build](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/build.yml/badge.svg?event=push)
-![Development](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/development.yml/badge.svg?event=push)
 
+
+**Quality of Life Features **
+- Trade Evolutions now tied with Leveling as long as correct items are held by the Pokemon.
+- TMs are unlimited to use like HMs.
 ---
+
 This is a decompilation of English Pokémon FireRed and LeafGreen.
 
 It builds the following ROM images:
@@ -19,6 +23,7 @@ For contacts and other pret projects, see [pret.github.io](https://pret.github.i
 
 ---
 
-# Quality of Life Features
-- Trade Evolutions now tied with Leveling as long as correct items are held by the Pokemon.
-- TMs are unlimited to use like HMs.
+
+## Credits
+
+[TrainerX493](https://github.com/TrainerX493) - Project Lead, programmer.
