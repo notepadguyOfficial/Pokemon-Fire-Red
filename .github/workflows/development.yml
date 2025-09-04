@@ -1,20 +1,19 @@
-name: Build
+name: Development
 
 on:
   push:
     branches: [ main ]
   pull_request:
 
-env:
-  MODERN: 0
-  COMPARE: 1
-  GAME_VERSION: FIRERED
-  GAME_LANGUAGE: ENGLISH
-  GAME_REVISION: 0
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GAME_VERSION: FIRERED
+      GAME_LANGUAGE: ENGLISH
+      GAME_REVISION: 0
+      MODERN: 0
+      COMPARE: 1
 
     steps:
       - name: Checkout repository
@@ -34,8 +33,8 @@ jobs:
           ref: symbols
           path: symbols
 
-      - name: Install dependencies
-        run: sudo apt install -y gcc-arm-none-eabi binutils-arm-none-eabi libpng-dev zip
+      - name: Install binutils
+        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libpng-dev
 
       - name: Install agbcc
         run: |
@@ -43,21 +42,35 @@ jobs:
           ./install.sh ../
         working-directory: ./agbcc
 
+      - name: Compare FireRed
+        run: |
+          make -j$(nproc) all syms
+
+      - name: Compare FireRed rev1
+        env:
+          GAME_REVISION: 1
+        run: |
+          make -j$(nproc) all syms
+
+      - name: Compare LeafGreen
+        env:
+          GAME_VERSION: LEAFGREEN
+        run: |
+          make -j$(nproc) all syms
+
+      - name: Compare LeafGreen rev1
+        env:
+          GAME_VERSION: LEAFGREEN
+          GAME_REVISION: 1
+        run: |
+          make -j$(nproc) all syms
+
       - name: Build Modern
         env:
           MODERN: 1
           COMPARE: 0
-        run: make -j$(nproc) all
-
-      - name: Zip all .gba files
-        run: zip -r gba_files.zip *.gba
-
-      - name: Upload .gba artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: gba-files
-          path: gba_files.zip
-          if-no-files-found: error
+        run: |
+          make -j$(nproc) all
 
       - name: Move symfiles
         if: ${{ github.repository == 'notepadguyOfficial/Pokemon-Fire-Red' && github.event_name == 'push' }}
