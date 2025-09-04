@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 env:
   MODERN: 0
@@ -18,19 +19,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@main
 
       - name: Checkout agbcc
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@master
         with:
           repository: pret/agbcc
           path: agbcc
 
-      - name: Checkout pret/pokefirered symbols
+      - name: Checkout symbols branch from own repo
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@main
         with:
-          repository: pret/pokefirered
           ref: symbols
           path: symbols
 
@@ -83,13 +83,13 @@ jobs:
           if-no-files-found: error
 
       - name: Move symfiles
-        if: ${{ github.repository == 'notepadguyOfficial/Pokemon-Fire-Red' && github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }}
         run: |
           cp *.sym symbols/
           echo "SYMBOLS_COMMIT_MSG=$( git log --format=%s ${GITHUB_SHA} )" >> $GITHUB_ENV
 
       - name: Update symfiles
-        if: ${{ github.repository == 'notepadguyOfficial/Pokemon-Fire-Red' && github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }}
         uses: EndBug/add-and-commit@v7
         with:
           branch: symbols
