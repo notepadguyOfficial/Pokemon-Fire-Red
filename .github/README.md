@@ -1,6 +1,6 @@
 # Pokémon Fire Red and Leaf Green
 
-![Build](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/build.yml/badge.svg?event=push)
+[![Build](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/build.yml/badge.svg?event=push)](https://github.com/notepadguyOfficial/Pokemon-Fire-Red/actions/workflows/build.yml)
 
 
 **Quality of Life Features **
