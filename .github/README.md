@@ -26,4 +26,4 @@ For contacts and other pret projects, see [pret.github.io](https://pret.github.i
 
 ## Credits
 
-[TrainerX493](https://github.com/TrainerX493) - Project Lead, programmer.
+[pret](https://github.com/pret) - Project Lead, programmer.
